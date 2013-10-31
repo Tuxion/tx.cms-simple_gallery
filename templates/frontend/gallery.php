@@ -9,12 +9,13 @@ echo load_plugin('colorbox');
     <a href="<?php echo $data->in_category->is_true() ? '#' : url('?cid='.$cat->id); ?>">
       <h1><?php echo $cat->title; ?></h1>
     </a>
-    <div class="clip-images">
+    <a class="com-simple_gallery--go-back" href="<?php echo url('cid=NULL'); ?>">&lt; Back</a>
+    <div class="clip-images clearfix">
       <ul class="com-simple_gallery--item-list clearfix">
         <?php
           $i=0;
           $cat->items->each(function($item)use($cat, $data, &$i){
-            if($i>5 && !$data->in_category->is_true())
+            if($i>9 && !$data->in_category->is_true())
               return;
             $i++;
           ?>
