@@ -1,0 +1,30 @@
+{
+  "title": "Simple gallery component",
+  "description": "Create a simple image gallery.",
+  "type": "manual",
+  "dbUpdates": true,
+  "versions": [
+    {
+      "version": "1.1",
+      "date": "2013-07-29",
+      "description": "Create multiple seperate gallery pages.",
+      "changes": [
+        {
+          "title": "Seperate gallery pages",
+          "description": "From now you can create multiple seperate gallery pages."
+        }
+      ]
+    },
+    {
+      "version": "1.0",
+      "date": "2013-01-28",
+      "description": "Automatische installatie mogelijk gemaakt.",
+      "changes": [
+        {
+          "title": "Automatische installatie",
+          "description": "Sinds deze update is het mogelijk om het component 'simple_gallery' automatisch te laten installeren via het update component."
+        }
+      ]
+    }
+  ]
+}

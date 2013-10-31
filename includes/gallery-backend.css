@@ -1,0 +1,122 @@
+
+  /* Gallery admin > category view */
+
+  .com-simple_gallery--gallery .edit-item-form .category-row{
+    display:none;
+  }
+  .com-simple_gallery--gallery .gallery-item-list{
+    list-style:none;
+    margin:0;
+    padding:0;
+    margin-top:14px;
+  }
+  .com-simple_gallery--gallery .gallery-item-list > li{
+    float:left;
+    margin-right:20px;
+    margin-bottom:20px;
+    transition: width 2s;
+    -moz-transition: width 2s; /* Firefox 4 */
+    -webkit-transition: width 2s; /* Safari and Chrome */
+    -o-transition: width 2s; /* Opera */
+  }
+  #page-main-right .com-simple_gallery--gallery .gallery-item-list:not(.inline-edit) > li{
+    margin-left:0;
+  }
+    .com-simple_gallery--gallery .thumbnail-wrapper{
+      position:relative;
+      text-align:right;
+    }
+      .com-simple_gallery--gallery .thumbnail{
+        display:block;
+        min-width:50px;
+        min-height:79px;
+        padding:5px 5px 1px 5px;
+        -webkit-background-clip: padding-box;
+        background-color:#eee;
+        border:solid #fff 1px;
+      }
+      .com-simple_gallery--gallery .gallery-item-list:not(.inline-edit) .thumbnail:hover{
+        border:solid #E2E2E2 1px;
+      }
+      .com-simple_gallery--gallery .thumbnail-wrapper .icon-delete{
+        position:absolute;
+        top:3px;
+        right:3px;
+        display:none;
+      }
+      .com-simple_gallery--gallery li:hover .icon-delete{
+        display:block;
+      }
+
+    .com-simple_gallery--gallery .gallery-item-list form{
+      display:none;
+    }
+    
+  /* Gallery admin -> category view > inline edit */
+
+  .com-simple_gallery--gallery .gallery-item-list.inline-edit > li{
+    margin-bottom:20px;
+  }
+    .com-simple_gallery--gallery .gallery-item-list.inline-edit .thumbnail{
+      min-width:120px;
+      background-color:transparent;
+      text-align:right;
+    }
+
+  .com-simple_gallery--gallery .gallery-item-list.inline-edit .thumbnail-wrapper,
+  .com-simple_gallery--gallery .gallery-item-list.inline-edit form{
+    float:left;
+  }
+  .com-simple_gallery--gallery .gallery-item-list.inline-edit form{
+    padding:0 8px;
+    display:block;
+  }
+
+  .category_list div{
+    position:relative;
+  }
+
+  .category_list .icon-delete{
+    display:none;
+  }
+
+  .category_list li:hover > div > .icon-delete{
+    display:block;
+    position:absolute;
+    top:3px;
+    right:0px;
+  }
+  
+.com-simple_gallery--item-list{
+  list-style:none;
+}
+.com-simple_gallery--item-list li{
+  display: block;
+  padding: 0px;
+  margin: 0px 9px 0px 0px;
+  border: 0px solid blue;
+  position: relative;
+  float: left;
+  padding:5px 10px;
+  overflow: hidden;
+}
+  .com-simple_gallery--item-list img{
+    border:solid #fff 2px;
+    border-radius:5px;
+    -moz-box-shadow: 2px 1px 8px 1px rgba(3, 3, 3, 0.6);
+    -webkit-box-shadow: 2px 1px 8px 1px rgba(3, 3, 3, 0.6);
+    box-shadow: 2px 1px 8px 1px rgba(3, 3, 3, 0.6);
+  }
+  .com-simple_gallery--item-list li:hover img{
+    box-shadow: 2px 1px 8px 2px rgba(3, 3, 3, 0.6);
+  }
+  .com-simple_gallery--item-list span{
+    display: block;
+    font-size: 10pt;
+    color: #333;
+    text-align: center;
+    font-family: Verdana, sans-serif;
+    width: 100%;
+  }
+
+
