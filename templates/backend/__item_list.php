@@ -10,7 +10,7 @@
       <li rel="<?php echo $item->id; ?>" class="clearfix">
         <div class="thumbnail-wrapper">
           <a class="thumbnail" href="<?php echo url('section=simple_gallery/item_edit&item_id='.$item->id); ?>">
-            <img src="<?php echo url(URL_BASE.'?section=media/image&resize=0/75&id='.$item->file_id, true); ?>" />
+            <img src="<?php echo $item->image->generate_url(array('resize_height'=>75)); ?>" />
           </a>
           <a title="<?php __('Delete this image'); ?>" href="<?php echo url('action=simple_gallery/item_delete&item_id='.$item->id); ?>" class="small-icon icon-delete"></a>
         </div>
@@ -38,19 +38,24 @@ $(function(){
         category_id: <?php echo abs(tx('Data')->get->category_id->get()); ?>
       }
     }).done(function(item_id){
-
-      //Apend item to item list.
-      $('.gallery-item-list')
-        .append(
-          '<li rel="'+item_id+'" class="clearfix">'+
-          '  <div class="thumbnail-wrapper">'+
-          '    <a class="thumbnail" href="<?php echo url('section=simple_gallery/item_edit'); ?>&item_id='+item_id+'">'+
-          '      <img src="<?php echo url(URL_BASE."?section=media/image&resize=0/75", true); ?>&id='+file_id+'" />'+
-          '    </a>'+
-          '    <a title="<?php __('Delete this image'); ?>" href="<?php echo url('action=simple_gallery/item_delete'); ?>&item_id='+item_id+'" class="small-icon icon-delete"></a>'+
-          '  </div>'+
-          '</li>'
-        );
+      
+      $.rest('GET', "?rest=media/generate_url/"+item_id+"&filters[resize_height]=75")
+        .done(function(thumbnail){
+          
+          //Apend item to item list.
+          $('.gallery-item-list')
+            .append(
+              '<li rel="'+item_id+'" class="clearfix">'+
+              '  <div class="thumbnail-wrapper">'+
+              '    <a class="thumbnail" href="<?php echo url('section=simple_gallery/item_edit'); ?>&item_id='+item_id+'">'+
+              '      <img src="'+thumbnail.url+'" />'+
+              '    </a>'+
+              '    <a title="<?php __('Delete this image'); ?>" href="<?php echo url('action=simple_gallery/item_delete'); ?>&item_id='+item_id+'" class="small-icon icon-delete"></a>'+
+              '  </div>'+
+              '</li>'
+            );
+            
+        });
 
     });
     

@@ -72,7 +72,7 @@ class Actions extends \dependencies\BaseComponent
           'datetime_created'  => date("Y-m-d H:i:s")
         ))->save();
         
-        $item_id = mysql_insert_id();
+        $item_id = mk('Sql')->get_insert_id();
         
         //save category-item link
         tx('Sql')->execute_non_query("
