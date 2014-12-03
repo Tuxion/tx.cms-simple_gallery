@@ -111,10 +111,16 @@ class Actions extends \dependencies\BaseComponent
 
       tx('Sql')->table('simple_gallery', 'Galleries')->pk($data->id)->execute_single()->is('empty')
         ->success(function($info)use($data){
-          tx('Sql')->model('simple_gallery', 'Galleries')->set($data->having('page_id'))->save();
+          tx('Sql')->model('simple_gallery', 'Galleries')
+            ->set($data->having('page_id'))
+            ->merge(array('flux_app'=>$data->flux_app->get('bool')))
+            ->save();
         })
         ->failure(function($info)use($data){
-          $info->merge($data->having('page_id'))->save();
+          $info
+            ->merge($data->having('page_id'))
+            ->merge(array('flux_app'=>$data->flux_app->get('bool')))
+            ->save();
         });
     
     })

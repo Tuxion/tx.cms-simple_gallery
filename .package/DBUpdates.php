@@ -10,9 +10,26 @@ class DBUpdates extends \components\update\classes\BaseDBUpdates
   protected
     $component = 'simple_gallery',
     $updates = array(
-      '1.0'=>'1.1'
+      '1.0'=>'1.1',
+      '1.1'=>'0.2.0'
     );
+  
+  public function update_to_0_2_0($current_version, $forced)
+  {
+    
+    try{
+      
+      tx('Sql')->query("
+        ALTER TABLE `#__simple_gallery__galleries`
+          ADD COLUMN `flux_app` BIT(1) NOT NULL DEFAULT b'0'
+      ");
 
+    } catch(\Exception $ex) {
+      if(!$forced) throw $ex;
+    }
+    
+  }
+  
   public function update_to_1_1($current_version, $forced)
   {
     

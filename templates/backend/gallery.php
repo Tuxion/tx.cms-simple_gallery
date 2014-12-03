@@ -7,15 +7,21 @@ $page_id = $arr_url[count($arr_url)-1];
 
 <link rel="stylesheet" href="<?php echo URL_COMPONENTS; ?>simple_gallery/includes/gallery-backend.css" type="text/css" />
 
-<form id="form-simple-gallery" method="post" action="<?php echo url('action=simple_gallery/save_gallery/post', 1); ?>">
-  <input type="hidden" name="id" value="<?php echo $data->gallery->id; ?>" />
-  <input type="hidden" name="page_id" value="<?php echo $page_id; ?>" />
-</form>
-
 <div class="page-item com-simple_gallery--gallery">
 
   <h3><?php __('Gallery'); ?></h3>
-
+  
+  <form id="form-simple-gallery" class="form" method="post" action="<?php echo url('action=simple_gallery/save_gallery/post', 1); ?>">
+    <input type="hidden" name="id" value="<?php echo $data->gallery->id; ?>" />
+    <div class="ctrlHolder" style="border:none">
+      <label>
+        <input type="checkbox" name="flux_app" value="1" <?php if($data->gallery->flux_app->is_true()) echo 'checked="checked"'; ?> />
+        Render as flux application.
+      </label>
+    </div>
+    
+  </form>
+  
   <div id="config-column-2" class="admin-box-wrapper">
     <div class="admin-box">
       <?php echo ___('Select').' '.___('A', 'l').' '.___('Category', 'l'); ?>.
