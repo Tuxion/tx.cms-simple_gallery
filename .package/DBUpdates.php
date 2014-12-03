@@ -116,7 +116,7 @@ class DBUpdates extends \components\update\classes\BaseDBUpdates
           //Look for the component in the CMS tables.
           $component = tx('Sql')
             ->table('cms', 'Components')
-            ->where('name', "'menu'")
+            ->where('name', "'simple_gallery'")
             ->limit(1)
             ->execute_single()
             
