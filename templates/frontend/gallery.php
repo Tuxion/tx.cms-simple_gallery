@@ -5,6 +5,44 @@ if($data->gallery->flux_app->is_true()){
   echo '<div id="simple-gallery-controller">Loading...</div>';
   echo load_plugin('simple_gallery_flux');
   
+  ?>
+  
+  <script type="text/javascript">
+    
+    // Replace content wrapper.
+    var $main = jQuery('<div id="simple-gallery-controller">');
+    jQuery('.content .block.text.col3').replaceWith($main);
+    jQuery('.main-wrapper .content .left').remove();
+    
+    // Render the main view.
+    React.render(
+      React.createElement(SimpleGalleryFlux.MainController),
+      $main[0]
+    );
+    
+    var $rightButton = jQuery('<div id="right-button-controller">');
+    
+    // Render side bar.
+    React.render(
+      React.createElement(SimpleGalleryFlux.RightButtonController),
+      $rightButton[0]
+    );
+    
+    // Load required data.
+    SimpleGalleryFlux.Tasks.initializeGallery(
+      <?php echo $data->gallery->id; ?>,
+      <?php echo $data->cid->otherwise('null'); ?>,
+      <?php echo $data->iid->otherwise('null'); ?>
+    );
+    
+    jQuery(function($){
+      jQuery('.main-wrapper > .content').prepend($rightButton);
+    });
+    
+  </script>
+  
+  <?php
+  
 }
 
 else{

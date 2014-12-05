@@ -12,7 +12,7 @@ class Views extends \dependencies\BaseViews
   {
     
     //Get page ID.
-    $page_id = tx('Data')->get->pid;
+    $page_id = $options->pid->is_set() ? $options->pid->value : tx('Data')->get->pid;
 
     if($page_id->get() <= 0){
       $arr_url = explode('/', tx('Data')->get->rest);
@@ -39,8 +39,13 @@ class Views extends \dependencies\BaseViews
         ->execute();
     }
     
+    $url = mk('Config')->system('cms_url')->get();
+    $ext = $url ? $url->getUrlExtensions() : array();
+    
     return array(
       'gallery' => $gallery,
+      'cid' => array_key_exists(0, $ext) ? $ext[0] : null,
+      'iid' => array_key_exists(1, $ext) ? $ext[1] : null,
       'in_category' => mk('Data')->get->cid->is_set(),
       'items' => tx('Component')->helpers('simple_gallery')->get_items(),
       'categories' => $categories,

@@ -1,12 +1,11 @@
-<?php namespace components\simple_gallery; if(!defined('TX')) die('No direct access.');
+<?php namespace components\simple_gallery; if(!defined('MK')) die('No direct access.');
 
 class Json extends \dependencies\BaseViews
 {
 
   protected
     $permissions = array(
-      'get_category' => 0,
-      'get_categories' => 0
+      'get_gallery' => 0
     );
 
   /**
@@ -15,14 +14,56 @@ class Json extends \dependencies\BaseViews
   protected function get_gallery($data, $params)
   {
     
-    return tx('Sql')
+    // Fit 440x440 = retina thumbnail
+    // Fill 1440x## = retina full
+    
+    $gallery = mk('Sql')
       ->table('simple_gallery', 'Galleries')
-      ->where('page_id', $params->{0})
-      ->execute_single()
-      ->otherwise(array(
-        'page_id' => $params->{0}->get('int'),
-        'id'=>'NEW'
+      ->where('id', $params->{0})
+      ->execute_single();
+    
+    $categories = mk('Sql')
+      ->table('simple_gallery', 'Categories', $C)
+      ->join('CategoryInfo', $CI)
+      ->select("$CI.title", 'title')
+      ->where("$C.gallery_id", $gallery->id)
+      ->order('lft')
+      ->execute();
+    
+    // Map the ordered category ID's to a property on the gallery.
+    $gallery->merge(array(
+      'categories'=>$categories->map(function($cat){ return $cat->id->get('int'); })
+    ));
+    
+    // Collect all the images from all galleries.
+    $images = array();
+    foreach($categories as $category){
+      
+      // Fetch the items and merge it with the collection.
+      $categoryImages = $category->get_items();
+      $images = array_merge($images, $categoryImages->get('array'));
+      
+      // Map the items to be listed as ID's in a property.
+      $category->merge(array(
+        'images' => $categoryImages->map(function($img){ return $img->id->get('int'); })
       ));
+      
+    }
+    
+    // Process the images to add their URL's.
+    foreach($images as $item){
+      $image = $item->get_image();
+      $item->merge(array(
+        'thumbnail' => (string)$image->generate_url(array('fill_width'=>440, 'fill_height'=>440)),
+        'full' => (string)$image->generate_url(array('resize_width'=>1440))
+      ));
+    }
+    
+    return array(
+      'gallery'=>$gallery,
+      'categories'=>$categories,
+      'images'=>$images
+    );
     
   }
 
@@ -48,26 +89,5 @@ class Json extends \dependencies\BaseViews
       ->execute();
     
   }
-
-  protected function update_categories_hierarchy($data, $params)
-  {
-    
-    $data->questions->each(function($q){
-      
-      tx('Sql')->model('wizard', 'Categories')->merge($q->having(array(
-        'id' => 'item_id',
-        'lft' => 'left',
-        'rgt' => 'right'
-      )))
-      
-      ->save();
-      
-    });
-    
-    return $this->get_questions(Data(), $params);
-    
-  }
-
-
 
 }
