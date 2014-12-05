@@ -9,7 +9,7 @@ class ItemInfo extends \dependencies\BaseModel
   
     $relations = array(
       'Items' => array('item_id' => 'Items.id'),
-      'Languages' => array('language_id' => 'Languages.id')
+      'Languages' => array('language_id' => 'Language.Languages.id')
     );
     
 }

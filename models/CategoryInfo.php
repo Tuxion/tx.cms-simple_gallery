@@ -9,7 +9,7 @@ class CategoryInfo extends \dependencies\BaseModel
   
     $relations = array(
       'Categories' => array('category_id' => 'Categories.id'),
-      'Languages' => array('language_id' => 'Languages.id')
+      'Languages' => array('language_id' => 'Language.Languages.id')
     );
     
 }

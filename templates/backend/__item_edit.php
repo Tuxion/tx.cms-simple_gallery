@@ -11,7 +11,7 @@ $form_id = 'gallery-item-form';
   <input type="hidden" name="id" value="<?php echo $item_edit->item->id ?>" />
   
   <div class="ctrlHolder">
-    <img src="<?php echo URL_BASE; ?>?section=media/image&id=<?php echo $data->item->file_id; ?>&resize=0/75" />
+    <img src="<?php echo $data->item->image->generate_url(array('resize_height'=>150)); ?>" />
   </div>
   
   <div class="ctrlHolder">
@@ -24,8 +24,7 @@ $form_id = 'gallery-item-form';
     <textarea class="big large" id="l_description" name="description"><?php echo $item_edit->item->description; ?></textarea>
   </div>
 
-  <div class="ctrlHolder wrap_category_list">
-    <div class="ctrlHolder">
+  <div class="ctrlHolder wrap_category_list" style="display:none">
     <label><?php __('Belongs to categories'); ?></label>
     <?php
     
@@ -40,7 +39,6 @@ $form_id = 'gallery-item-form';
     });
 
     ?>
-    </div>
   </div>
  
   <div class="buttonHolder">
