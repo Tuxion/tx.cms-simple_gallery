@@ -11,7 +11,8 @@ if($data->gallery->flux_app->is_true()){
     
     // Replace content wrapper.
     var $main = jQuery('<div id="simple-gallery-controller">');
-    jQuery('.content .block.text.col3').replaceWith($main);
+    jQuery('.content .col3.float-left .block.text').replaceWith($main);
+    jQuery('.content .col3.float-left').removeClass('col3').addClass('col4');
     jQuery('.main-wrapper .content .left').remove();
     
     // Render the main view.
@@ -36,6 +37,7 @@ if($data->gallery->flux_app->is_true()){
     );
     
     jQuery(function($){
+      jQuery('#mc_embed_signup').hide();
       jQuery('.main-wrapper > .content').prepend($rightButton);
     });
     
