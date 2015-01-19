@@ -55,7 +55,7 @@ class Json extends \dependencies\BaseViews
       $image = $item->get_image();
       $item->merge(array(
         'thumbnail' => (string)$image->generate_url(array('fill_width'=>440, 'fill_height'=>440)),
-        'full' => (string)$image->generate_url(array('resize_width'=>1440))
+        'full' => (string)$image->generate_url(array( 'resize_width'=>(1440/2) ))
       ));
     }
     

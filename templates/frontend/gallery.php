@@ -37,12 +37,12 @@ if($data->gallery->flux_app->is_true()){
     );
     
     jQuery(function($){
-      jQuery('#mc_embed_signup').hide();
+      jQuery('#mc_embed_signup').addClass('theme-gallery');
       jQuery('.main-wrapper > .content').prepend($rightButton);
     });
     
   </script>
-  
+
   <?php
   
 }
