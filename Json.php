@@ -27,7 +27,7 @@ class Json extends \dependencies\BaseViews
       ->join('CategoryInfo', $CI)
       ->select("$CI.title", 'title')
       ->where("$C.gallery_id", $gallery->id)
-      ->order('lft')
+      ->order('lft', 'ASC')
       ->execute();
     
     // Map the ordered category ID's to a property on the gallery.
@@ -39,24 +39,31 @@ class Json extends \dependencies\BaseViews
     $images = array();
     foreach($categories as $category){
       
+      $videos = $category->videos;
+
       // Fetch the items and merge it with the collection.
       $categoryImages = $category->get_items();
+      $categoryImages = $categoryImages->merge($videos->get('array'));
       $images = array_merge($images, $categoryImages->get('array'));
-      
+
       // Map the items to be listed as ID's in a property.
       $category->merge(array(
         'images' => $categoryImages->map(function($img){ return $img->id->get('int'); })
       ));
+
+      // $category->images->merge($videos->get('array'));
       
     }
     
     // Process the images to add their URL's.
     foreach($images as $item){
-      $image = $item->get_image();
-      $item->merge(array(
-        'thumbnail' => (string)$image->generate_url(array('fill_width'=>440, 'fill_height'=>440)),
-        'full' => (string)$image->generate_url(array( 'resize_width'=>(1440/2) ))
-      ));
+      if($item->is_video->get('bool') != true){
+        $image = $item->get_image();
+        $item->merge(array(
+          'thumbnail' => (string)$image->generate_url(array('fill_width'=>440, 'fill_height'=>440)),
+          'full' => (string)$image->generate_url(array( 'resize_width'=>(1440/2) ))
+        ));
+      }
     }
     
     return array(
@@ -85,7 +92,7 @@ class Json extends \dependencies\BaseViews
       ->is($options->gallery_id->is_set(), function($q)use($options){
         $q->where('gallery_id', $options->gallery_id);
       })
-      ->order('lft')
+      ->order('lft', 'ASC')
       ->execute();
     
   }

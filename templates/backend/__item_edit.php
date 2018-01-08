@@ -11,7 +11,9 @@ $form_id = 'gallery-item-form';
   <input type="hidden" name="id" value="<?php echo $item_edit->item->id ?>" />
   
   <div class="ctrlHolder">
-    <img src="<?php echo $data->item->image->generate_url(array('resize_height'=>150)); ?>" />
+    <a target="_blank" title="Open origineel" href="<?php echo $data->item->image->generate_url(); ?>">
+      <img src="<?php echo $data->item->image->generate_url(array('resize_height'=>150)); ?>" />
+    </a>
   </div>
   
   <div class="ctrlHolder">

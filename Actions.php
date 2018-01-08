@@ -135,7 +135,7 @@ class Actions extends \dependencies\BaseComponent
 
   protected function save_category($data)
   {
-    
+
     tx($data->id->get('int') > 0 ? 'Updating a category.' : 'Adding a new category', function()use($data, &$category){
       
       //Update.
@@ -146,7 +146,7 @@ class Actions extends \dependencies\BaseComponent
         $category = tx('Sql')->table('simple_gallery', 'Categories')->pk($data->id)->execute_single()->is('empty', function()use($data){
           throw new \exception\User('Could not update because no entry was found in the database with id %s.', $data->id);
         })
-        ->merge($data->having('access_level'))
+        ->merge($data->having('access_level', 'video_urls'))
         ->save();
         
         //Only existing categories can have subcategories, so use recursion if requested.
@@ -175,11 +175,23 @@ class Actions extends \dependencies\BaseComponent
       //Or insert.
       else{
         
-        $category = tx('Sql')->model('simple_gallery', 'Categories')->set($data->having('gallery_id', 'access_level'))->hsave(null, 0);
-        $category_info = tx('Sql')->model('simple_gallery', 'CategoryInfo')->set($data->having('title', 'description')->merge(array('category_id'=>$category->id)))->save();
-        
-        // trace($category->dump(), $category_info->dump());
-        // exit;
+        $category = tx('Sql')->model('simple_gallery', 'Categories')->set($data->having('gallery_id', 'access_level', 'video_urls'))->hsave(null, 0);
+
+        // Save Dutch category info
+        $category_info = tx('Sql')->model('simple_gallery', 'CategoryInfo')->set(
+          $data->having('title', 'description')->merge(array(
+            'category_id' => $category->id,
+            'language_id' => 1
+          ))
+        )->save();
+
+        // Save English category info
+        $category_info = tx('Sql')->model('simple_gallery', 'CategoryInfo')->set(
+          $data->having('title', 'description')->merge(array(
+            'category_id' => $category->id,
+            'language_id' => 2
+          ))
+        )->save();
         
       }
       

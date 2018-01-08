@@ -1,0 +1,21 @@
+
+.icon-instagram{
+  background:url(img/instagram.svg);
+  background-size:100%;
+  background-position:center left;
+  background-repeat:no-repeat;
+}
+.icon-twitter{
+  background:url(img/twitter.svg);
+  background-size:100%;
+  background-position:center left;
+  background-repeat:no-repeat;
+}
+
+.tab{
+  display:inline-block;
+}
+
+#page{
+  BACKGROUND:#000;
+}

@@ -1,56 +1,52 @@
 <?php namespace components\simple_gallery; if(!defined('TX')) die('No direct access.');
 
-if($data->gallery->flux_app->is_true()){
-  
+# Table column type `BIT(1)` does not work well in Mokuji
+if(true || $data->gallery->flux_app->is_true()){
   echo '<div id="simple-gallery-controller">Loading...</div>';
   echo load_plugin('simple_gallery_flux');
-  
   ?>
-  
-  <script type="text/javascript">
-    
-    // Replace content wrapper.
-    var $main = jQuery('<div id="simple-gallery-controller">');
-    jQuery('.content .col3.float-left .block.text').replaceWith($main);
-    jQuery('.content .col3.float-left').removeClass('col3').addClass('col4');
-    jQuery('.main-wrapper .content .left').remove();
-    
-    // Render the main view.
-    React.render(
-      React.createElement(SimpleGalleryFlux.MainController),
-      $main[0]
-    );
-    
-    var $rightButton = jQuery('<div id="right-button-controller">');
-    
-    // Render side bar.
-    React.render(
-      React.createElement(SimpleGalleryFlux.RightButtonController),
-      $rightButton[0]
-    );
-    
-    // Load required data.
-    SimpleGalleryFlux.Tasks.initializeGallery(
-      <?php echo $data->gallery->id; ?>,
-      <?php echo $data->cid->otherwise('null'); ?>,
-      <?php echo $data->iid->otherwise('null'); ?>
-    );
-    
-    jQuery(function($){
-      jQuery('#mc_embed_signup').addClass('theme-gallery');
-      jQuery('.main-wrapper > .content').prepend($rightButton);
-    });
-    
-  </script>
+
+<script>
+
+// Replace content wrapper.
+var $main = jQuery('<div id="simple-gallery-controller">');
+jQuery('.content .col3.float-left .block.text').replaceWith($main);
+jQuery('.content .col3.float-left').removeClass('col3').addClass('col4');
+jQuery('.main-wrapper .content .left').remove();
+
+// Render the main view.
+ReactDOM.render(
+  React.createElement(window.simple_gallery_flux.MainController),
+  document.getElementById('simple-gallery-controller')
+)
+
+var $rightButton = jQuery('<div id="right-button-controller">');
+
+// Render side bar.
+ReactDOM.render(
+  React.createElement(window.simple_gallery_flux.RightButtonController),
+  $rightButton[0]
+);
+
+// Load required data.
+window.simple_gallery_flux.Tasks.initializeGallery(
+  <?php echo $data->gallery->id; ?>,
+  <?php echo $data->cid->otherwise('null'); ?>,
+  <?php echo $data->iid->otherwise('null'); ?>
+);
+
+jQuery(function($){
+  jQuery('#mc_embed_signup').addClass('theme-gallery');
+  jQuery('.main-wrapper > .content').prepend($rightButton);
+});
+
+</script>
 
   <?php
-  
 }
 
 else{
-  
   echo load_plugin('colorbox');
-  
   ?>
 
   <?php $data->categories->each(function($cat)use($data){ ?>

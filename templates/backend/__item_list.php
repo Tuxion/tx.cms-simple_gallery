@@ -3,7 +3,29 @@
 ?>
 <h2><span title="Category ID: <?php echo $item_list->category_info->id; ?>"><?php echo $item_list->category_info->title; ?></span> <a id="edit-category"  class="button grey"href="<?php echo url('section=simple_gallery/category_edit&category_id='.$item_list->category_info->id); ?>"><?php __('edit'); ?></a></h2>
 
-<ul id="gallery" class="gallery-item-list clearfix">
+<br />
+<div class="video-editor">
+
+  <form id="gallery-category-form" method="post" action="<?php echo url('action=simple_gallery/save_category/post'); ?>" class="form">
+
+    <input type="hidden" name="id" value="<?php echo $data->category_info->id ?>" />
+    <input type="hidden" name="gallery_id" value="<?php echo $data->category_info->gallery_id ?>" />
+
+    <label>
+      <strong>Paste video URLs, one video per line:</strong><br />
+      <textarea class="video_urls" name="video_urls" placeholder="Paste video URLs, one video per line."><?php echo $data->category_info->video_urls ?></textarea>
+    </label>
+
+    <input type="submit" value="Save">
+
+  </form>
+  
+</div>
+
+<br />
+<strong>Photos (uploader at the bottom of this page):</strong><br />
+
+<ul id="gallery" class="gallery-item-list clearfix" data-id="foto">
   <?php
   $item_list->all_items->each(function($item)use($item_list){
     ?>
@@ -22,7 +44,37 @@
 
 <?php echo $data->image_uploader; ?>
 
+<style>
+.video_urls{
+  font-size:11px;
+  width:500px;
+  height:60px;
+}
+</style>
+
 <script type="text/javascript">
+
+$(function(){
+  
+  //Fill in gallery ID. Ugly, sorry.
+  var gallery_id = $('#form-simple-gallery input[type="hidden"][name="id"]').val();
+  var page_id = $('#form-simple-gallery input[type="hidden"][name="page_id"]').val();
+  $('#gallery-category-form input[name="gallery_id"]').val(gallery_id);
+  
+  $('#gallery-category-form').submit(function(e){
+    
+    e.preventDefault();
+    $(this).ajaxSubmit(function(data){
+      $('#gallery-category-form').find('input[type="submit"]').val('Saved!');
+      setTimeout(function(){
+        $('#gallery-category-form').find('input[type="submit"]').val('Save');
+      }, 2500);
+    });
+    
+  });
+  
+});
+
 
 $(function(){
 
